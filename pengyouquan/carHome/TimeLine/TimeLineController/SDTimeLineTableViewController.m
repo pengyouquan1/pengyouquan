@@ -14,6 +14,7 @@
 #import "SDTimeLineCellModel.h"
 #import "UITableView+SDAutoTableViewCellHeight.h"
 #import "MBNewsViewController.h"
+#import "MBSendTimeLineViewController.h"
 
 #define kTimeLineTableViewCellId @"SDTimeLineCell"
 
@@ -34,6 +35,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    UIButton * rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+    [rightButton setImage:[UIImage imageNamed:@"iconfont-jiahao"] forState:UIControlStateNormal];
+    [rightButton addTarget:self action:@selector(sendTimeLine) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
     
     _circlesId = [[NSString alloc] init];
     segmentedControl=[[UISegmentedControl alloc] initWithFrame:CGRectMake(80.0f, 8.0f, 180.0f, 30.0f) ];
@@ -175,6 +181,16 @@
 {
     [_refreshHeader removeFromSuperview];
 }
+
+-(void)sendTimeLine
+{
+    MBSendTimeLineViewController * sendTimeLineVC = [[MBSendTimeLineViewController alloc] init];
+    UINavigationController * nvc=[[UINavigationController alloc] initWithRootViewController:sendTimeLineVC];
+//    UINavigationBar *bar = [UINavigationBar appearance];
+//    //设置显示的颜色
+//    bar.barTintColor = [UIColor blackColor];
+    nvc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    [self presentViewController:nvc animated:YES completion:nil];}
 
 - (NSArray *)creatModelsWithCount:(NSInteger)count
 {
