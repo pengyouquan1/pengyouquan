@@ -7,6 +7,16 @@
 //
 
 #import "AppDelegate.h"
+#import "SDTimeLineTableViewController.h"
+#import "UMSocial.h"
+#import "UMSocialWechatHandler.h"
+#import "UMSocialQQHandler.h"
+
+#define WXAppId @"wx8addd6e93c41749f"
+#define WXAppSecret @"1f2ca74f132c152029af8effa4b0d46d"
+
+#define QQAppId @"100424468"
+#define QQappSecret @"c7394704798a158208a74ab60104f0ba"
 
 @interface AppDelegate ()
 
@@ -16,7 +26,22 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    
+    [UMSocialData setAppKey:@"56ea0aede0f55ae83e0004cb"];
+    [UMSocialWechatHandler setWXAppId:WXAppId appSecret:WXAppSecret url:@"http://www.baidu.com"];
+    [UMSocialQQHandler setQQWithAppId:QQAppId appKey:QQappSecret url:@"http://www.umeng.com/social"];
+  [UMSocialConfig hiddenNotInstallPlatforms:@[UMShareToQQ, UMShareToQzone, UMShareToWechatSession, UMShareToWechatTimeline]];
+
+    UINavigationBar *bar = [UINavigationBar appearance];
+    //设置显示的颜色
+    bar.barTintColor = [UIColor colorWithRed:198/255.0 green:39/255.0 blue:23/255.0 alpha:1.0];
+    
+//    self.window.rootViewController=nvc;
+    
+    SDTimeLineTableViewController * time=[[SDTimeLineTableViewController alloc] init];
+    UINavigationController * vc=[[UINavigationController alloc] initWithRootViewController:time];
+    self.window.rootViewController=vc;
+    
     return YES;
 }
 
