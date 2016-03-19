@@ -27,6 +27,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    
     [UMSocialData setAppKey:@"56ea0aede0f55ae83e0004cb"];
     [UMSocialWechatHandler setWXAppId:WXAppId appSecret:WXAppSecret url:@"http://www.baidu.com"];
     [UMSocialQQHandler setQQWithAppId:QQAppId appKey:QQappSecret url:@"http://www.umeng.com/social"];
