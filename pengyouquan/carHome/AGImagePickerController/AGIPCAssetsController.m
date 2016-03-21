@@ -236,7 +236,12 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     // Navigation Bar Items
-    UIBarButtonItem *doneButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneAction:)];
+    UIButton * DoneButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 25)];
+    [DoneButton setTitle:@"完成" forState:UIControlStateNormal];
+    [DoneButton setTitleColor:[UIColor colorWithRed:7.0/255.0 green:125.0/255.0 blue:1.0 alpha:1.0] forState:UIControlStateNormal];
+    [DoneButton addTarget:self action:@selector(doneAction:) forControlEvents:UIControlEventTouchUpInside];
+
+    UIBarButtonItem *doneButtonItem = [[UIBarButtonItem alloc] initWithCustomView:DoneButton];
     doneButtonItem.enabled = NO;
     self.navigationItem.rightBarButtonItem = doneButtonItem;
     
@@ -316,9 +321,9 @@
         self.toolbarItems = items;
     } else {
         // Standard Toolbar Items
-        UIBarButtonItem *selectAll = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringWithDefaultValue(@"AGIPC.SelectAll", nil, [NSBundle mainBundle], @"Select All", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(selectAllAction:)];
+        UIBarButtonItem *selectAll = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringWithDefaultValue(@"AGIPC.SelectAll", nil, [NSBundle mainBundle], @"全部选择", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(selectAllAction:)];
         UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-        UIBarButtonItem *deselectAll = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringWithDefaultValue(@"AGIPC.DeselectAll", nil, [NSBundle mainBundle], @"Deselect All", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(deselectAllAction:)];
+        UIBarButtonItem *deselectAll = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringWithDefaultValue(@"AGIPC.DeselectAll", nil, [NSBundle mainBundle], @"全部删除", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(deselectAllAction:)];
         
         NSArray *toolbarItemsForManagingTheSelection = @[selectAll, flexibleSpace, deselectAll];
         self.toolbarItems = toolbarItemsForManagingTheSelection;

@@ -213,6 +213,8 @@
 		6A1C1A2C1C9C30B800E7A45B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A1C1A2B1C9C30B800E7A45B /* Foundation.framework */; };
 		6A1C1A2E1C9C30D300E7A45B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A1C1A2D1C9C30D300E7A45B /* CoreLocation.framework */; };
 		6A2B71261C9D221800F04270 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A2B71251C9D221800F04270 /* MobileCoreServices.framework */; };
+		6A6744041C9F8C5F00581134 /* MBProgressHUD+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6744011C9F8C5F00581134 /* MBProgressHUD+Add.m */; };
+		6A6744051C9F8C5F00581134 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6744031C9F8C5F00581134 /* MBProgressHUD.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -581,6 +583,10 @@
 		6A1C1A2D1C9C30D300E7A45B /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		6A1C1A2F1C9C310C00E7A45B /* MBPrefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBPrefix.pch; sourceTree = "<group>"; };
 		6A2B71251C9D221800F04270 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		6A6744001C9F8C5F00581134 /* MBProgressHUD+Add.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+Add.h"; sourceTree = "<group>"; };
+		6A6744011C9F8C5F00581134 /* MBProgressHUD+Add.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+Add.m"; sourceTree = "<group>"; };
+		6A6744021C9F8C5F00581134 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		6A6744031C9F8C5F00581134 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -712,6 +718,7 @@
 		1561B1961C9A51B80060F378 /* carHome */ = {
 			isa = PBXGroup;
 			children = (
+				6A6743FF1C9F8C5F00581134 /* MBProgressHUD */,
 				6A1C1A251C9C301800E7A45B /* AGImagePickerController.podspec */,
 				6A1C19FB1C9C2E5E00E7A45B /* AGImagePickerController */,
 				6A1C18E01C9BEA8800E7A45B /* AFNetworking */,
@@ -1394,6 +1401,17 @@
 			path = AGImagePickerController;
 			sourceTree = "<group>";
 		};
+		6A6743FF1C9F8C5F00581134 /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				6A6744001C9F8C5F00581134 /* MBProgressHUD+Add.h */,
+				6A6744011C9F8C5F00581134 /* MBProgressHUD+Add.m */,
+				6A6744021C9F8C5F00581134 /* MBProgressHUD.h */,
+				6A6744031C9F8C5F00581134 /* MBProgressHUD.m */,
+			);
+			path = MBProgressHUD;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1681,6 +1699,7 @@
 				6A1C1A201C9C2E5E00E7A45B /* AGPreviewScrollView.m in Sources */,
 				1561B31C1C9A62260060F378 /* UIImage+MultiFormat.m in Sources */,
 				1561B3641C9A62FC0060F378 /* NSAttributedString+MLLabel.m in Sources */,
+				6A6744051C9F8C5F00581134 /* MBProgressHUD.m in Sources */,
 				1561B31B1C9A62260060F378 /* UIImage+GIF.m in Sources */,
 				1561B48E1C9BCC460060F378 /* MX_MASViewConstraint.m in Sources */,
 				1561B2EB1C9A61F80060F378 /* SDBaseNavigationController.m in Sources */,
@@ -1693,6 +1712,7 @@
 				6A1C1A1E1C9C2E5E00E7A45B /* AGIPCPreviewController.m in Sources */,
 				1561B3831C9A63520060F378 /* TTTAttributedLabel.m in Sources */,
 				6A1C1A1D1C9C2E5E00E7A45B /* AGIPCGridItem.m in Sources */,
+				6A6744041C9F8C5F00581134 /* MBProgressHUD+Add.m in Sources */,
 				1561B3761C9A63200060F378 /* MLLabelLayoutManager.m in Sources */,
 				1561B2D31C9A61650060F378 /* SDTimeLineRefreshFooter.m in Sources */,
 				6A1C191F1C9BEAA600E7A45B /* AFHTTPSessionManager.m in Sources */,

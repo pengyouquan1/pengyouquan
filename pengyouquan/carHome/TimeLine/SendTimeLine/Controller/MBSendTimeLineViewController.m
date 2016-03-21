@@ -14,6 +14,7 @@
 #import "ImagePickerChooseView.h"
 #import "AGImagePickerController.h"
 #import "ShowImageViewController.h"
+#import "MBProgressHUD.h"
 
 
 #define textViewHeight 100
@@ -23,11 +24,11 @@
 #define GrayColor [UIColor colorWithRed:216.0/255.0 green:216.0/255.0 blue:216.0/255.0 alpha:1.0]
 #define PATH @"http://139.196.172.196:8082/yueche/yuecheApp/appAddCircles"
 
-@interface MBSendTimeLineViewController ()<UITextViewDelegate,UIGestureRecognizerDelegate,UITableViewDelegate,UITableViewDataSource,UITextViewDelegate>
+@interface MBSendTimeLineViewController ()<UITextViewDelegate,UIGestureRecognizerDelegate,UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,MBProgressHUDDelegate>
 {
     UIButton * addImgButton;
     UIButton * rightButton;
-    
+    MBProgressHUD * hud;
 }
 @property (nonatomic,weak)UITextView *reportStateTextView;
 @property (nonatomic,weak)UILabel *pLabel;
@@ -54,7 +55,7 @@
     rightButton.userInteractionEnabled = NO;
     rightButton.titleLabel.font = [UIFont systemFontOfSize:18];
     [rightButton addTarget:self action:@selector(send) forControlEvents:UIControlEventTouchUpInside];
-
+    
     
     UIButton * leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 25)];
     [leftButton setTitle:@"取消" forState:UIControlStateNormal];
@@ -65,7 +66,7 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     [self initHeaderView];
-
+    
     // Do any additional setup after loading the view.
 }
 
@@ -81,18 +82,29 @@
 
 -(void)send
 {
+    [self.reportStateTextView resignFirstResponder];
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+
+    [self.view addSubview:hud];
+    
+    // Regiser for HUD callbacks so we can remove it from the window at the right time
+    hud.delegate = self;
+    
+    hud.labelText = @"正在发送...";
     NSMutableArray * dataArray = [[NSMutableArray alloc] init];
     for(int i =0;i < self.imagePickerArray.count;i ++)
     {
         UIImage * sendImage;
-        sendImage = [[UIImage alloc] initWithCGImage:((ALAsset *)[self.imagePickerArray objectAtIndex:0]).thumbnail];
+        ALAsset *asset = ((ALAsset *)[self.imagePickerArray objectAtIndex:i]);
+        //在这里使用asset来获取图片
+        sendImage = [self fullResolutionImageFromALAsset:asset];
         NSData * data;
         data = UIImageJPEGRepresentation(sendImage, 0.5);
         [dataArray addObject:data];
     }
     
     NSString * customeId = @"1";
-
+    
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
     session.responseSerializer=[AFHTTPResponseSerializer serializer];
     
@@ -107,16 +119,26 @@
                 
                 [formData appendPartWithFileData:data name:@"file" fileName:fileName mimeType:@"image/png"];
             }
-        
+            
         }
         
     } progress:^(NSProgress * _Nonnull uploadProgress) {
         
+        NSLog(@"%@",uploadProgress);
+        
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"%@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
         NSDictionary * dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+        [hud hide:YES afterDelay:0];
+
         if ([[dic objectForKey:@"msg"] isEqualToString:@"接口：车友圈-发布信息--成功..."]) {
             [self dismissViewControllerAnimated:YES completion:nil];
+        }
+        
+        else
+        {
+            UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"发送失败，请重试" delegate:nil cancelButtonTitle:@"好的" otherButtonTitles: nil];
+            [alert show];
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -126,13 +148,23 @@
     
 }
 
+-(UIImage *)fullResolutionImageFromALAsset:(ALAsset *)asset
+{
+    ALAssetRepresentation *assetRep = [asset defaultRepresentation];
+    CGImageRef imgRef = [assetRep fullResolutionImage];
+    UIImage *img = [UIImage imageWithCGImage:imgRef
+                                       scale:assetRep.scale
+                                 orientation:(UIImageOrientation)assetRep.orientation];
+    return img;
+}
+
 //大图特别耗内存，不能把大图存在数组里，存类型或者小图
 -(void)initHeaderView
 {
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - 64) style:UITableViewStylePlain];
     self.tableView.delegate  =self;
     self.tableView.dataSource = self;
-//    self.tableView.backgroundColor = [UIColor colorWithRed:239.0/255.0 green:239.0/255.0 blue:244.0/255.0 alpha:1.0];
+    //    self.tableView.backgroundColor = [UIColor colorWithRed:239.0/255.0 green:239.0/255.0 blue:244.0/255.0 alpha:1.0];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(keyboardDismiss:)];
     tap.delegate = self;
@@ -173,7 +205,7 @@
         pictureImageView.tag = imageTag + i;
         pictureImageView.userInteractionEnabled = YES;
         pictureImageView.image = [UIImage imageWithCGImage:((ALAsset *)[self.imagePickerArray objectAtIndex:i]).thumbnail];
-    
+        
         [headView addSubview:pictureImageView];
     }
     if (imageCount < MaxImageCount) {
@@ -209,12 +241,12 @@
 {
     [self.reportStateTextView resignFirstResponder];
     
-//    self.navigationController.navigationBarHidden = YES;
-//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-//    ShowImageViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"ShowImage"];
-//    vc.clickTag = tap.view.tag;
-//    vc.imageViews = self.imagePickerArray;
-//    [self.navigationController pushViewController:vc animated:YES];
+    //    self.navigationController.navigationBarHidden = YES;
+    //    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+    //    ShowImageViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"ShowImage"];
+    //    vc.clickTag = tap.view.tag;
+    //    vc.imageViews = self.imagePickerArray;
+    //    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - keyboard method
@@ -270,7 +302,7 @@
             }
             
             [self dismissViewControllerAnimated:YES completion:^{}];
-//            [self.IPCView disappear];
+            //            [self.IPCView disappear];
             [self initHeaderView];
             
             [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
@@ -304,8 +336,8 @@
     if (!_imagePickerArray) {
         _imagePickerArray = [[NSMutableArray alloc]init];
         
-//        [_imagePickerArray addObject:[UIImage imageNamed:@"icon1.jpg"]];
-
+        //        [_imagePickerArray addObject:[UIImage imageNamed:@"icon1.jpg"]];
+        
     }
     return _imagePickerArray;
 }
@@ -378,7 +410,7 @@
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     // Configure the cell...
- 
+    
     
     
     return cell;

@@ -97,10 +97,14 @@
     if (self.imagePickerController.shouldChangeStatusBarStyle) {
         self.wantsFullScreenLayout = YES;
     }
-    self.title = NSLocalizedStringWithDefaultValue(@"AGIPC.Albums", nil, [NSBundle mainBundle], @"Albums", nil);
+    self.title = NSLocalizedStringWithDefaultValue(@"AGIPC.Albums", nil, [NSBundle mainBundle], @"相册", nil);
     
     // Navigation Bar Items
-    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelAction:)];
+    UIButton * CancelButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 25)];
+    [CancelButton setTitle:@"取消" forState:UIControlStateNormal];
+    [CancelButton setTitleColor:[UIColor colorWithRed:7.0/255.0 green:125.0/255.0 blue:1.0 alpha:1.0] forState:UIControlStateNormal];
+    [CancelButton addTarget:self action:@selector(cancelAction:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithCustomView:CancelButton];
 	self.navigationItem.leftBarButtonItem = cancelButton;
     
     // avoid deadlock on ios5, delay to handle in viewDidLoad, springox(20140612)
