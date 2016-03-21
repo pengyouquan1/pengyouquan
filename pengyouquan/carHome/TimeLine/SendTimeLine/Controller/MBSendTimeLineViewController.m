@@ -46,6 +46,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = [UIColor whiteColor];
     rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 25)];
@@ -97,12 +98,16 @@
     for(int i =0;i < self.imagePickerArray.count;i ++)
     {
         UIImage * sendImage;
-        ALAsset *asset = ((ALAsset *)[self.imagePickerArray objectAtIndex:i]);
-        //在这里使用asset来获取图片
-        sendImage = [self fullResolutionImageFromALAsset:asset];
-        NSData * data;
-        data = UIImageJPEGRepresentation(sendImage, 0.3);
-        [dataArray addObject:data];
+        if(![self.imagePickerArray[i] isKindOfClass:[NSData class]])
+        {
+            ALAsset *asset = ((ALAsset *)[self.imagePickerArray objectAtIndex:i]);
+            //在这里使用asset来获取图片
+            sendImage = [self fullResolutionImageFromALAsset:asset];
+            NSData * data;
+            data = UIImageJPEGRepresentation(sendImage, 0.3);
+            [dataArray addObject:data];
+        }
+      
     }
     
     NSString * customeId = @"1";
@@ -209,7 +214,13 @@
         
         pictureImageView.tag = imageTag + i;
         pictureImageView.userInteractionEnabled = YES;
-        pictureImageView.image = [UIImage imageWithCGImage:((ALAsset *)[self.imagePickerArray objectAtIndex:i]).thumbnail];
+        if (![self.imagePickerArray[i] isKindOfClass:[NSData class]]) {
+            pictureImageView.image = [UIImage imageWithCGImage:((ALAsset *)[self.imagePickerArray objectAtIndex:i]).thumbnail];
+        }
+        else
+        {
+            pictureImageView.image = [UIImage imageWithData:self.imagePickerArray[i]];
+        }
         
         [headView addSubview:pictureImageView];
     }
@@ -300,11 +311,6 @@
         } andSuccessBlock:^(NSArray *info) {
             [self.imagePickerArray addObjectsFromArray:info];
             
-            for(int i =0;i < self.imagePickerArray.count;i ++)
-            {
-                UIImage * image;
-                image = [UIImage imageWithCGImage:((ALAsset *)[self.imagePickerArray objectAtIndex:i]).thumbnail];
-            }
             
             [self dismissViewControllerAnimated:YES completion:^{}];
             //            [self.IPCView disappear];
@@ -323,6 +329,7 @@
     }];
     [self.view addSubview:IPCView];
     self.IPCView = IPCView;
+    self.IPCView.controller = self;
     
     //不能添加约束，因为会导致frame暂时为0，后面的tableview cellfor......不会执行
     //添加约束
@@ -345,6 +352,32 @@
         
     }
     return _imagePickerArray;
+}
+
+-(void)openCamera
+{
+    
+    AVCaptureDevice * device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    //Input
+    NSError *error;
+    AVCaptureDeviceInput * input = [AVCaptureDeviceInput deviceInputWithDevice:device error:&error];
+    //判断是否有输入
+    if (!input)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请手动打开相机访问权限" message:@"设置-->隐私-->相机" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定",nil];
+        alert.delegate =self;
+        [alert setTag:100];
+        [alert show];
+        
+        return;
+    }
+    
+    UIImagePickerControllerSourceType sourceType =UIImagePickerControllerSourceTypeCamera;
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];//初始化
+    picker.delegate = self;
+    picker.allowsEditing = YES;//设置可编辑
+    picker.sourceType = sourceType;
+    [self presentViewController:picker animated:YES completion:^{}];//进入照相界面
 }
 
 
@@ -388,6 +421,22 @@
     }
     return YES;
 }
+
+#pragma mark - UIImagePickerControllerDelegate
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
+{
+    UIImage * image;
+    image= [[UIImage alloc] init];
+    [picker dismissViewControllerAnimated:YES completion:^{}];
+    image = [info objectForKey:UIImagePickerControllerEditedImage];
+    NSData * imageData = UIImageJPEGRepresentation(image, 0.3);
+    [self.imagePickerArray addObject:imageData];
+    
+    [self initHeaderView];
+
+}
+
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
