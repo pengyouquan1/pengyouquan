@@ -7,10 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MBSendTimeLineViewController.h"
+
 typedef void (^ImagePickerBlock)();
 @interface ImagePickerChooseView : UIView
+
+@property (nonatomic,strong) MBSendTimeLineViewController * controller;
+
 -(id)initWithFrame:(CGRect)frame andAboveView:(UIView *)bgView;
 -(void)addImagePickerChooseView;
 -(void)setImagePickerBlock:(ImagePickerBlock)block;
 -(void)disappear;
+
 @end

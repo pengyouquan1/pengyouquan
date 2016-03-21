@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MBSendTimeLineViewController : UIViewController
+@interface MBSendTimeLineViewController : UIViewController<UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 @property (nonatomic,strong) UITableView * tableView;
+
+-(void)openCamera;
 
 @end

@@ -10,6 +10,8 @@
 #import "HeaderContent.h"
 #import "ImagePickerChooseCell.h"
 #import "MBSendTimeLineViewController.h"
+#import <AVFoundation/AVFoundation.h>
+
 @interface ImagePickerChooseView()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic,weak)UIView *tapView;
 @property (nonatomic,weak)UITableView *chooseTableView;
@@ -99,6 +101,7 @@
 {
     //拍照
     if (indexPath.row == 0) {
+        [self.controller openCamera];
         
     }
     //从手机相册选择
@@ -111,6 +114,7 @@
         [self disappear];
     }
 }
+
 
 
 
