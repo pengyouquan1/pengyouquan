@@ -14,9 +14,17 @@
 #import "SDTimeLineCellModel.h"
 #import "UITableView+SDAutoTableViewCellHeight.h"
 #import "MBNewsViewController.h"
+#import "MBSendTimeLineViewController.h"
+#import <AVFoundation/AVFoundation.h>
+#import "AFNetworking.h"
+
 
 #define kTimeLineTableViewCellId @"SDTimeLineCell"
-
+#define PATH @"http://139.196.172.196:8082/yueche/yuecheApp/appCirclesList"
+#define CommentPATH @"http://139.196.172.196:8082/yueche/yuecheApp/appCirclesComment"
+// http:// 139.196.172.196:8082/yueche/yuecheApp
+//appCirclesComment
+//http://115.28.108.41:8080/yueche/yuecheApp/appCirclesList?customerId=101
 @implementation SDTimeLineTableViewController
 
 {
@@ -35,6 +43,11 @@
 {
     [super viewDidLoad];
     
+    UIButton * rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+    [rightButton setImage:[UIImage imageNamed:@"iconfont-jiahao"] forState:UIControlStateNormal];
+    [rightButton addTarget:self action:@selector(sendTimeLine) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
+    
     _circlesId = [[NSString alloc] init];
     segmentedControl=[[UISegmentedControl alloc] initWithFrame:CGRectMake(80.0f, 8.0f, 180.0f, 30.0f) ];
     [segmentedControl insertSegmentWithTitle:@"车友圈" atIndex:0 animated:YES];
@@ -47,7 +60,7 @@
     [self.navigationItem setTitleView:segmentedControl];
     
     //评论
-    view=[[UIView alloc] initWithFrame:CGRectMake(0, appHeight/2, appWidth, 40)];
+    view=[[UIView alloc] initWithFrame:CGRectMake(0, appHeight-40, appWidth, 40)];
     view.backgroundColor=[UIColor colorWithRed:250/255.0 green:250/255.0 blue:250/255.0 alpha:1];
     view.hidden=YES;
     [self.parentViewController.view addSubview:view];
@@ -75,7 +88,7 @@
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    [self.dataArray addObjectsFromArray:[self creatModelsWithCount:10]];
+//    [self.dataArray addObjectsFromArray:[self creatModelsWithCount:10]];
     
     __weak typeof(self) weakSelf = self;
     
@@ -86,7 +99,7 @@
     __weak typeof(_refreshFooter) weakRefreshFooter = _refreshFooter;
     _refreshFooter.beginRefreshingOperation = ^() {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [weakSelf.dataArray addObjectsFromArray:[weakSelf creatModelsWithCount:10]];
+//            [weakSelf.dataArray addObjectsFromArray:[weakSelf creatModelsWithCount:10]];
             [weakSelf.tableView reloadData];
             [weakRefreshFooter endRefreshing];
         });
@@ -98,43 +111,108 @@
     self.tableView.tableHeaderView = headerView;
     
     [self.tableView registerClass:[SDTimeLineCell class] forCellReuseIdentifier:kTimeLineTableViewCellId];
+    
+    [self gitData];
 }
+-(void)gitData
+{
+    NSString * customeId = @"1";
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    session.responseSerializer=[AFHTTPResponseSerializer serializer];
+    [session POST:PATH parameters:@{@"customerId":customeId} constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        
+        
+    } progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSMutableArray *resArr = [NSMutableArray new];
+        NSLog(@"%@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+        NSDictionary * dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+        NSArray * messageArray= [dic objectForKey:@"data"];
+        
+        if ([[dic objectForKey:@"msg"] isEqualToString:@"接口：车友圈-车友圈消息列表--成功..."]) {
+            
+            for (int i = 0; i<[messageArray count]; i++) {
+                SDTimeLineCellModel *model = [SDTimeLineCellModel new];
+                model.iconName = [messageArray[i] objectForKey:@"picUrl"];
+                model.name = [messageArray[i] objectForKey:@"userName"];
+                model.msgContent =[messageArray[i] objectForKey:@"circlesContext"];
+//                model.circlesId = [messageArray[i] objectForKey:@"id"]; // 车友圈id
+                NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];
+            
+                model.circlesId = [numberFormatter stringFromNumber:[messageArray[i] objectForKey:@"id"]];
+//                NSLog(@"%@========%@",[messageArray[i] objectForKey:@"id"],model.circlesId);
+                model.picNamesArray = [messageArray[i] objectForKey:@"picUrl"];
+                [resArr addObject:model];
+                
+                NSArray *namesArray = @[@"GSD_iOS",
+                                        @"风口上的猪",
+                                        @"当今世界网名都不好起了",
+                                        @"我叫郭德纲",
+                                        @"Hello Kitty"];
+                NSArray *commentsArray = @[@"社会主义好！👌👌👌👌",
+                                           @"正宗好凉茶，正宗好声音。。。",
+                                           @"你好，我好，大家好才是真的好",
+                                           @"有意思",
+                                           @"你瞅啥？",
+                                           @"瞅你咋地？？？！！！",
+                                           @"hello，看我",
+                                           @"曾经在幽幽暗暗反反复复中追问，才知道平平淡淡从从容容才是真，再回首恍然如梦，再回首我心依旧，只有那不变的长路伴着我",
+                                           @"人艰不拆",
+                                           @"咯咯哒",
+                                           @"呵呵~~~~~~~~",
+                                           @"我勒个去，啥世道啊",
+                                           @"真有意思啊你💢💢💢"];
+                int commentRandom = arc4random_uniform(6);
+                NSMutableArray *tempComments = [NSMutableArray new];
+                for (int i = 0; i < commentRandom; i++) {
+                    SDTimeLineCellCommentItemModel *commentItemModel = [SDTimeLineCellCommentItemModel new];
+                    int index = arc4random_uniform((int)namesArray.count);
+                    commentItemModel.firstUserName = namesArray[index];
+                    commentItemModel.firstUserId = @"666";
+                    if (arc4random_uniform(10) < 5) {
+                        commentItemModel.secondUserName = namesArray[arc4random_uniform((int)namesArray.count)];
+                        commentItemModel.secondUserId = @"888";
+                    }
+                    commentItemModel.commentString = commentsArray[arc4random_uniform((int)commentsArray.count)];
+                    [tempComments addObject:commentItemModel];
+                }
+                model.commentItemsArray = [tempComments copy];
+
+
+            }
+            
+            
+            
+            [self.dataArray addObjectsFromArray:[resArr copy]];
+            [self.tableView reloadData];
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"上传失败");
+    }];
+    
+}
+
 -(void)segmentedSelected:(UISegmentedControl *)Seg{
     NSInteger Index = Seg.selectedSegmentIndex;
     switch (Index) {
         case 1:
-//            self.tableView.hidden=YES;
-//            news.view.hidden=NO;
-            
+
             [self.view addSubview:news.view];
             [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
 
-//            [self.tableView removeFromSuperview];
-//            news.view.hidden = NO;
+            self.navigationItem.rightBarButtonItem.customView.hidden=YES;
             
-//            contactTableView.showsVerticalScrollIndicator = YES;
-//            mxTableView.hidden = YES;
-//            mxTableView.showsVerticalScrollIndicator = NO;
-//            [self.view bringSubviewToFront:self.tableView];
             self.tableView.scrollEnabled=NO;
             break;
         case 0:
-//            self.tableView.hidden=NO;
-//            //            news.view.hidden=NO;
-//            
-//            [self.view addSubview:self.tableView];
+            self.navigationItem.rightBarButtonItem.customView.hidden=NO;
+
             [news.view removeFromSuperview];
             self.tableView.scrollEnabled=YES;
 
-//            news.view.hidden = YES;
-//            
-            //            [self.view addSubview:mxTableView];
-            //            [contactTableView removeFromSuperview];
-            //            contactTableView.hidden = YES;
-            //            contactTableView.showsVerticalScrollIndicator = NO;
-            //            mxTableView.hidden = NO;
-            //            mxTableView.showsVerticalScrollIndicator = YES;
-//                        [self.view bringSubviewToFront:news.view];
             
             break;
         default:
@@ -156,7 +234,10 @@
                 
                 if(segmentedControl.selectedSegmentIndex==0)
                 {
-                    weakSelf.dataArray = [[weakSelf creatModelsWithCount:10] mutableCopy];
+//                    weakSelf.dataArray = [[weakSelf creatModelsWithCount:10] mutableCopy];
+                   
+                    [weakSelf.dataArray removeAllObjects];
+                    [weakSelf gitData];
                     [weakHeader endRefreshing];
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [weakSelf.tableView reloadData];
@@ -175,6 +256,16 @@
 {
     [_refreshHeader removeFromSuperview];
 }
+
+-(void)sendTimeLine
+{
+    MBSendTimeLineViewController * sendTimeLineVC = [[MBSendTimeLineViewController alloc] init];
+    UINavigationController * nvc=[[UINavigationController alloc] initWithRootViewController:sendTimeLineVC];
+//    UINavigationBar *bar = [UINavigationBar appearance];
+//    //设置显示的颜色
+//    bar.barTintColor = [UIColor blackColor];
+    nvc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    [self presentViewController:nvc animated:YES completion:nil];}
 
 - (NSArray *)creatModelsWithCount:(NSInteger)count
 {
@@ -282,6 +373,7 @@
     if (!cell.moreButtonClickedBlock) {
         [cell setMoreButtonClickedBlock:^(NSIndexPath *indexPath) {
             SDTimeLineCellModel *model = weakSelf.dataArray[indexPath.row];
+            NSLog(@"%lu-----%@----%@",(unsigned long)[weakSelf.dataArray count],model.name,model.circlesId);
             model.isOpening = !model.isOpening;
             [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
         }];
@@ -350,22 +442,51 @@
     int index;
     for (int i=0; i<[weakSelf.dataArray count];i++ ) {
         SDTimeLineCellModel * model =weakSelf.dataArray[i];
+        
         if ([_circlesId isEqualToString:model.circlesId]) {
             index=i;
             break;
         }
     }
     
-    
     SDTimeLineCellModel * model =weakSelf.dataArray[index];
 //    NSArray * commentItemArray=model.commentItemsArray;
     NSMutableArray *commentItemArray=[[NSMutableArray alloc] initWithArray:model.commentItemsArray];
     [commentItemArray addObject:commentItemModel];
     model.commentItemsArray = [commentItemArray copy];
+    NSLog(@"%lu---%@",(unsigned long)[weakSelf.dataArray count],commentItemArray);
     weakSelf.dataArray[index]= model;
     NSIndexPath *indexPath=[NSIndexPath indexPathForRow:index inSection:0];
     [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
    
+    
+    
+    
+    
+    NSString * customeId = @"1";
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    session.responseSerializer=[AFHTTPResponseSerializer serializer];
+    NSLog(@"-----------%@",model.circlesId);
+    [session POST:CommentPATH parameters:@{@"customerId":customeId,@"circlesId":model.circlesId,@"commentContext":textField.text} constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+    } progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSMutableArray *resArr = [NSMutableArray new];
+        NSLog(@"%@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+        NSDictionary * dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+        NSArray * messageArray= [dic objectForKey:@"data"];
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"上传失败");
+    }];
+    
+    
+    
+    
+    
+    
+    
     [self Actiondo:nil];
     return YES;
 }
@@ -374,5 +495,6 @@
     [textField resignFirstResponder];
     view.hidden = YES;
     [textField setText:@""];
+    view.frame=CGRectMake(0, appHeight-40, appWidth, 40);
 }
 @end
