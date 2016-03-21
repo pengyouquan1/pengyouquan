@@ -82,6 +82,8 @@
 
 -(void)send
 {
+    rightButton.enabled = NO;
+    
     [self.reportStateTextView resignFirstResponder];
     hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
@@ -99,7 +101,7 @@
         //在这里使用asset来获取图片
         sendImage = [self fullResolutionImageFromALAsset:asset];
         NSData * data;
-        data = UIImageJPEGRepresentation(sendImage, 0.5);
+        data = UIImageJPEGRepresentation(sendImage, 0.3);
         [dataArray addObject:data];
     }
     
@@ -111,16 +113,17 @@
     [session POST:PATH parameters:@{@"customerId":customeId,@"circlesContext":self.reportStateTextView.text} constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         
         if (dataArray.count >0) {
-            for (NSData * data in dataArray) {
+            for(int i = 0;i < dataArray.count;i ++)
+            {
+                NSData * data = dataArray[i];
                 NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
                 formatter.dateFormat = @"yyyyMMddHHmmss";
                 NSString *str = [formatter stringFromDate:[NSDate date]];
-                NSString *fileName = [NSString stringWithFormat:@"%@.jpg", str];
-                
-                [formData appendPartWithFileData:data name:@"file" fileName:fileName mimeType:@"image/png"];
+                NSString *fileName = [NSString stringWithFormat:@"%@.jpg",str];
+                [formData appendPartWithFileData:data name:[NSString stringWithFormat:@"%@%d",fileName,i] fileName:fileName mimeType:@"image/png"];
             }
-            
         }
+        
         
     } progress:^(NSProgress * _Nonnull uploadProgress) {
         
@@ -130,8 +133,10 @@
         NSLog(@"%@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
         NSDictionary * dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
         [hud hide:YES afterDelay:0];
+        rightButton.enabled = YES;
 
         if ([[dic objectForKey:@"msg"] isEqualToString:@"接口：车友圈-发布信息--成功..."]) {
+
             [self dismissViewControllerAnimated:YES completion:nil];
         }
         
