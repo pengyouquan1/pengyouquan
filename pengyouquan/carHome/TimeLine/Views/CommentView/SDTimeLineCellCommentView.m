@@ -169,8 +169,17 @@
 }
 -(void)Actiondo:(UITapGestureRecognizer *)tap{
     MLLinkLabel * label=(MLLinkLabel *)tap.view;
-    SDTimeLineCellCommentItemModel * commentItem = label.CommentItemModel;
-    [self.lineCell pinglun:commentItem];
+    SDTimeLineCellCommentItemModel * commentItem;
+    NSLog(@"%@",label.CommentItemModel);
+    if (label.CommentItemModel.firstUserName) {
+        commentItem= label.CommentItemModel;
+        [self.lineCell pinglun:commentItem];
+    }else
+    {
+        NSLog(@"123313313131232131313");
+        
+    }
+    
     
 }
 @end
