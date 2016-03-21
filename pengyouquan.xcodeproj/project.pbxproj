@@ -167,6 +167,8 @@
 		1561B4D41C9BCD210060F378 /* UMSocialSDKResourcesNew.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1561B4D11C9BCD210060F378 /* UMSocialSDKResourcesNew.bundle */; };
 		1561B4D71C9BCD4B0060F378 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1561B4D51C9BCD4B0060F378 /* TencentOpenApi_IOS_Bundle.bundle */; };
 		1561B4D81C9BCD4B0060F378 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1561B4D61C9BCD4B0060F378 /* TencentOpenAPI.framework */; };
+		1561B4DB1C9BE9190060F378 /* Discover.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1561B4D91C9BE9190060F378 /* Discover.xcassets */; };
+		1561B4DC1C9BE9190060F378 /* Home.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1561B4DA1C9BE9190060F378 /* Home.xcassets */; };
 		6A1C18971C9BE52900E7A45B /* iconfont-jiahao.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A1C18961C9BE52900E7A45B /* iconfont-jiahao.png */; };
 		6A1C191F1C9BEAA600E7A45B /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A1C19131C9BEAA600E7A45B /* AFHTTPSessionManager.m */; };
 		6A1C19201C9BEAA600E7A45B /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A1C19161C9BEAA600E7A45B /* AFNetworkReachabilityManager.m */; };
@@ -497,6 +499,9 @@
 		1561B4D11C9BCD210060F378 /* UMSocialSDKResourcesNew.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = UMSocialSDKResourcesNew.bundle; sourceTree = "<group>"; };
 		1561B4D51C9BCD4B0060F378 /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
 		1561B4D61C9BCD4B0060F378 /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TencentOpenAPI.framework; sourceTree = "<group>"; };
+		1561B4D91C9BE9190060F378 /* Discover.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Discover.xcassets; sourceTree = "<group>"; };
+		1561B4DA1C9BE9190060F378 /* Home.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Home.xcassets; sourceTree = "<group>"; };
+		1561B4DF1C9BEFB20060F378 /* AFAutoPurgingImageCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AFAutoPurgingImageCache.h; sourceTree = "<group>"; };
 		6A1C18961C9BE52900E7A45B /* iconfont-jiahao.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-jiahao.png"; sourceTree = "<group>"; };
 		6A1C19121C9BEAA600E7A45B /* AFHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPSessionManager.h; sourceTree = "<group>"; };
 		6A1C19131C9BEAA600E7A45B /* AFHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPSessionManager.m; sourceTree = "<group>"; };
@@ -737,6 +742,8 @@
 		1561B1971C9A51B80060F378 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				1561B4D91C9BE9190060F378 /* Discover.xcassets */,
+				1561B4DA1C9BE9190060F378 /* Home.xcassets */,
 				6A1C19F41C9C252C00E7A45B /* location.png */,
 				6A1C19F21C9C250900E7A45B /* deletePhoto.png */,
 				6A1C18961C9BE52900E7A45B /* iconfont-jiahao.png */,
@@ -1287,6 +1294,7 @@
 		6A1C18E01C9BEA8800E7A45B /* AFNetworking */ = {
 			isa = PBXGroup;
 			children = (
+				1561B4DF1C9BEFB20060F378 /* AFAutoPurgingImageCache.h */,
 				6A1C192D1C9BEAC900E7A45B /* UIActivityIndicatorView+AFNetworking.h */,
 				6A1C192E1C9BEAC900E7A45B /* UIActivityIndicatorView+AFNetworking.m */,
 				6A1C192F1C9BEAC900E7A45B /* UIButton+AFNetworking.h */,
@@ -1562,6 +1570,7 @@
 				1561B4B61C9BCC8C0060F378 /* UMShareEditViewController.xib in Resources */,
 				1561B49E1C9BCC5E0060F378 /* icon3.jpg in Resources */,
 				1561B3C41C9A63C70060F378 /* 2.jpg in Resources */,
+				1561B4DB1C9BE9190060F378 /* Discover.xcassets in Resources */,
 				1561B3C61C9A63C70060F378 /* 4.jpg in Resources */,
 				1561B4B81C9BCC8C0060F378 /* UMSLoginViewController.xib in Resources */,
 				1561B49C1C9BCC5E0060F378 /* icon1.jpg in Resources */,
@@ -1574,6 +1583,7 @@
 				1561B3D51C9A63C70060F378 /* 19.jpg in Resources */,
 				1561B35B1C9A628C0060F378 /* MLEmoji_Expression.plist in Resources */,
 				1561B3A21C9A63A90060F378 /* pic2.jpg in Resources */,
+				1561B4DC1C9BE9190060F378 /* Home.xcassets in Resources */,
 				1561B3A41C9A63A90060F378 /* pic4.jpg in Resources */,
 				1561B4B91C9BCC8C0060F378 /* UMSnsAccountViewController.xib in Resources */,
 				1561B3D31C9A63C70060F378 /* 17.jpg in Resources */,

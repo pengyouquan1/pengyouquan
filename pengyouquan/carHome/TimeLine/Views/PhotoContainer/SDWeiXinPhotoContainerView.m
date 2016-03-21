@@ -6,32 +6,13 @@
 //  Copyright © 2015年 gsd. All rights reserved.
 //
 
-
-/*
- 
- *********************************************************************************
- *
- * GSD_WeiXin
- *
- * QQ交流群: 459274049
- * Email : gsdios@126.com
- * GitHub: https://github.com/gsdios/GSD_WeiXin
- * 新浪微博:GSD_iOS
- *
- * 此“高仿微信”用到了很高效方便的自动布局库SDAutoLayout（一行代码搞定自动布局）
- * SDAutoLayout地址：https://github.com/gsdios/SDAutoLayout
- * SDAutoLayout视频教程：http://www.letv.com/ptv/vplay/24038772.html
- * SDAutoLayout用法示例：https://github.com/gsdios/SDAutoLayout/blob/master/README.md
- *
- *********************************************************************************
- 
- */
-
 #import "SDWeiXinPhotoContainerView.h"
 
 #import "UIView+SDAutoLayout.h"
 
 #import "SDPhotoBrowser.h"
+#import "UIImageView+WebCache.h"
+
 
 @interface SDWeiXinPhotoContainerView () <SDPhotoBrowserDelegate>
 
@@ -85,7 +66,9 @@
     CGFloat itemW = [self itemWidthForPicPathArray:_picPathStringsArray];
     CGFloat itemH = 0;
     if (_picPathStringsArray.count == 1) {
-        UIImage *image = [UIImage imageNamed:_picPathStringsArray.firstObject];
+        UIImage *image = [UIImage imageNamed:@"icon0.jpg"];
+//        [image sd_setImageWithURL:[NSURL URLWithString:@"ewq"] placeholderImage:[UIImage imageNamed:@"icon0.jpg"]];
+        
         if (image.size.width) {
             itemH = image.size.height / image.size.width * itemW;
         }
@@ -100,7 +83,15 @@
         long rowIndex = idx / perRowItemCount;
         UIImageView *imageView = [_imageViewsArray objectAtIndex:idx];
         imageView.hidden = NO;
-        imageView.image = [UIImage imageNamed:obj];
+//        NSLog(@"-----==%@",obj);
+      
+        if (obj) {
+            [imageView sd_setImageWithURL:[NSURL URLWithString:obj] placeholderImage:[UIImage imageNamed:@"icon0.jpg"]];
+        }else{
+            [imageView sd_setImageWithURL:nil placeholderImage:[UIImage imageNamed:@"icon0.jpg"]];
+        }
+        
+//        imageView.image = [UIImage imageNamed:obj];
         imageView.frame = CGRectMake(columnIndex * (itemW + margin), rowIndex * (itemH + margin), itemW, itemH);
     }];
     

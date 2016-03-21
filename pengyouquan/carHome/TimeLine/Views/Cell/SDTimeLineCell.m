@@ -6,34 +6,12 @@
 //  Copyright © 2016年 GSD. All rights reserved.
 //
 
-/*
- 
- *********************************************************************************
- *
- * GSD_WeiXin
- *
- * QQ交流群: 459274049
- * Email : gsdios@126.com
- * GitHub: https://github.com/gsdios/GSD_WeiXin
- * 新浪微博:GSD_iOS
- *
- * 此“高仿微信”用到了很高效方便的自动布局库SDAutoLayout（一行代码搞定自动布局）
- * SDAutoLayout地址：https://github.com/gsdios/SDAutoLayout
- * SDAutoLayout视频教程：http://www.letv.com/ptv/vplay/24038772.html
- * SDAutoLayout用法示例：https://github.com/gsdios/SDAutoLayout/blob/master/README.md
- *
- *********************************************************************************
- 
- */
-
 #import "SDTimeLineCell.h"
-
 #import "SDTimeLineCellModel.h"
 #import "UIView+SDAutoLayout.h"
-
 #import "SDTimeLineCellCommentView.h"
-
 #import "SDWeiXinPhotoContainerView.h"
+#import "UIImageView+WebCache.h"
 
 const CGFloat contentLabelFontSize = 15;
 CGFloat maxContentLabelHeight = 0; // 根据具体font而定
@@ -181,10 +159,7 @@ CGFloat maxContentLabelHeight = 0; // 根据具体font而定
     .leftEqualToView(_contentLabel)
     .rightSpaceToView(self.contentView, margin)
     .topSpaceToView(_timeLabel, margin); // 已经在内部实现高度自适应所以不需要再设置高度
-    
-    
-    
-    
+
 }
 
 
@@ -197,12 +172,24 @@ CGFloat maxContentLabelHeight = 0; // 根据具体font而定
     
     _shouldOpenContentLabel = NO;
     
-    _iconView.image = [UIImage imageNamed:model.iconName];
+//    _iconView.image = [UIImage imageNamed:model.iconName];
+    if ([model.iconName count]) {
+        [_iconView sd_setImageWithURL:[NSURL URLWithString:[model.iconName[0] objectForKey:@"circlesPic"]] placeholderImage:[UIImage imageNamed:@"icon0.jpg"]];
+    }else{
+        [_iconView sd_setImageWithURL:nil placeholderImage:[UIImage imageNamed:@"icon0.jpg"]];
+    }
+
+    
     _nameLable.text = model.name;
     // 防止单行文本label在重用时宽度计算不准的问题
     [_nameLable sizeToFit];
     _contentLabel.text = model.msgContent;
-    _picContainerView.picPathStringsArray = model.picNamesArray;
+//    _picContainerView.picPathStringsArray = model.picNamesArray;
+    NSMutableArray * ary=[NSMutableArray new];
+    for (int i=0; i<[model.picNamesArray count]; i++) {
+        [ary addObject:[model.picNamesArray[i] objectForKey:@"circlesPic"]];
+    }
+    _picContainerView.picPathStringsArray =[ary copy];
     
     if (model.shouldShowMoreButton) { // 如果文字高度超过60
         _moreButton.sd_layout.heightIs(20);
