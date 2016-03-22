@@ -187,8 +187,13 @@ CGFloat maxContentLabelHeight = 0; // 根据具体font而定
 //    _picContainerView.picPathStringsArray = model.picNamesArray;
     NSMutableArray * ary=[NSMutableArray new];
     for (int i=0; i<[model.picNamesArray count]; i++) {
-        [ary addObject:[model.picNamesArray[i] objectForKey:@"circlesPic"]];
+        if ([model.picNamesArray[0] isKindOfClass:[NSData class]]) {
+            [ary addObject:model.picNamesArray[i]];
+        }else{
+            [ary addObject:[model.picNamesArray[i] objectForKey:@"circlesPic"]];
+        }
     }
+    
     _picContainerView.picPathStringsArray =[ary copy];
     
     if (model.shouldShowMoreButton) { // 如果文字高度超过60

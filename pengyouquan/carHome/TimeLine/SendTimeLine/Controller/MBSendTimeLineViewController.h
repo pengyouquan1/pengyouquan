@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SDTimeLineTableViewController.h"
 
 @interface MBSendTimeLineViewController : UIViewController<UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 @property (nonatomic,strong) UITableView * tableView;
+@property (nonatomic, assign) SDTimeLineTableViewController * controller;
 
 -(void)openCamera;
 

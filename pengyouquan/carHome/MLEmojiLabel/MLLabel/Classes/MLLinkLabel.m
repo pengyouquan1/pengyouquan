@@ -40,6 +40,9 @@ REGULAREXPRESSION(HashtagRegularExpression, @"#([\\u4e00-\\u9fa5\\w\\-]+)")
 
 @implementation MLLink
 
+
+
+
 + (instancetype)linkWithType:(MLLinkType)type value:(NSString*)value range:(NSRange)range
 {
     return [MLLink linkWithType:type value:value range:range linkTextAttributes:nil activeLinkTextAttributes:nil];

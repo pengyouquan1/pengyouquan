@@ -26,6 +26,8 @@
 
 @interface SDPhotoBrowser : UIView <UIScrollViewDelegate>
 
+@property (nonatomic, strong) NSArray *picPathStringsArray;
+
 @property (nonatomic, weak) UIView *sourceImagesContainerView;
 @property (nonatomic, assign) NSInteger currentImageIndex;
 @property (nonatomic, assign) NSInteger imageCount;

@@ -43,6 +43,7 @@
 @end
 
 @implementation MBSendTimeLineViewController
+@synthesize controller;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -86,14 +87,12 @@
     rightButton.enabled = NO;
     
     [self.reportStateTextView resignFirstResponder];
+    
     hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-
     [self.view addSubview:hud];
-    
-    // Regiser for HUD callbacks so we can remove it from the window at the right time
     hud.delegate = self;
-    
     hud.labelText = @"正在发送...";
+    
     NSMutableArray * dataArray = [[NSMutableArray alloc] init];
     for(int i =0;i < self.imagePickerArray.count;i ++)
     {
@@ -109,6 +108,7 @@
         }
       
     }
+    [self.controller SessionManager:self.reportStateTextView.text picArray:[dataArray copy]];
     
     NSString * customeId = @"1";
     
@@ -137,7 +137,6 @@
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"%@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
         NSDictionary * dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        [hud hide:YES afterDelay:0];
         rightButton.enabled = YES;
 
         if ([[dic objectForKey:@"msg"] isEqualToString:@"接口：车友圈-发布信息--成功..."]) {
@@ -155,6 +154,10 @@
         NSLog(@"上传失败");
     }];
     
+    [hud hide:YES afterDelay:0];
+
+    [self dismissViewControllerAnimated:YES completion:nil];
+
     
 }
 
