@@ -173,8 +173,8 @@ CGFloat maxContentLabelHeight = 0; // 根据具体font而定
     _shouldOpenContentLabel = NO;
     
 //    _iconView.image = [UIImage imageNamed:model.iconName];
-    if ([model.iconName count]) {
-        [_iconView sd_setImageWithURL:[NSURL URLWithString:[model.iconName[0] objectForKey:@"circlesPic"]] placeholderImage:[UIImage imageNamed:@"icon0.jpg"]];
+    if (model.iconName != NULL) {
+        [_iconView sd_setImageWithURL:[NSURL URLWithString:model.iconName] placeholderImage:[UIImage imageNamed:@"icon0.jpg"]];
     }else{
         [_iconView sd_setImageWithURL:nil placeholderImage:[UIImage imageNamed:@"icon0.jpg"]];
     }

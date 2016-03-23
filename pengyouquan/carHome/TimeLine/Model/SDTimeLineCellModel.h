@@ -33,7 +33,7 @@
 @interface SDTimeLineCellModel : NSObject
 
 @property (nonatomic, copy) NSString * circlesId; //车友圈id
-@property (nonatomic, strong) NSArray *iconName; //picUrl
+@property (nonatomic, copy) NSString *iconName; //userHead
 @property (nonatomic, copy) NSString *customerId; //customerId
 @property (nonatomic, copy) NSString *name;     //userName
 @property (nonatomic, copy) NSString *msgContent; //circlesContext

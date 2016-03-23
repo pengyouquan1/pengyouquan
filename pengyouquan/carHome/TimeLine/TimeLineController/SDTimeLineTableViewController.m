@@ -88,7 +88,6 @@
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-//    [self.dataArray addObjectsFromArray:[self creatModelsWithCount:10]];
     
     __weak typeof(self) weakSelf = self;
     
@@ -99,7 +98,6 @@
     __weak typeof(_refreshFooter) weakRefreshFooter = _refreshFooter;
     _refreshFooter.beginRefreshingOperation = ^() {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//            [weakSelf.dataArray addObjectsFromArray:[weakSelf creatModelsWithCount:10]];
             [weakSelf.tableView reloadData];
             [weakRefreshFooter endRefreshing];
         });
@@ -116,7 +114,7 @@
 }
 -(void)gitData
 {
-    NSString * customeId = @"1";
+    NSString * customeId = @"10000008";//[NSNumber numberWithInteger:[[result hxUserId] integerValue]]
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
     session.responseSerializer=[AFHTTPResponseSerializer serializer];
     [session POST:PATH parameters:@{@"customerId":customeId} constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
@@ -135,7 +133,7 @@
             
             for (int i = 0; i<[messageArray count]; i++) {
                 SDTimeLineCellModel *model = [SDTimeLineCellModel new];
-                model.iconName = [messageArray[i] objectForKey:@"picUrl"];
+                model.iconName = [messageArray[i] objectForKey:@"userHead"];
                 model.name = [messageArray[i] objectForKey:@"userName"];
                 model.msgContent =[messageArray[i] objectForKey:@"circlesContext"];
 //                model.circlesId = [messageArray[i] objectForKey:@"id"]; // 车友圈id
@@ -234,7 +232,6 @@
                 
                 if(segmentedControl.selectedSegmentIndex==0)
                 {
-//                    weakSelf.dataArray = [[weakSelf creatModelsWithCount:10] mutableCopy];
                    
                     [weakSelf.dataArray removeAllObjects];
                     [weakSelf gitData];
@@ -340,8 +337,8 @@
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     SDTimeLineCellCommentItemModel *commentItemModel = [SDTimeLineCellCommentItemModel new];
-    commentItemModel.firstUserName = @"新人";
-    commentItemModel.firstUserId = @"666";
+    commentItemModel.firstUserName = @"15122964686";
+    commentItemModel.firstUserId = @"10000008";//[NSNumber numberWithInteger:[[result hxUserId] integerValue]]
     commentItemModel.commentString = textField.text;
     if (commentItemOld) {
         commentItemModel.secondUserName = commentItemOld.firstUserName;
@@ -372,7 +369,7 @@
     
     
     
-    NSString * customeId = @"1";
+    NSString * customeId = @"10000008";//[NSNumber numberWithInteger:[[result hxUserId] integerValue]]
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
     session.responseSerializer=[AFHTTPResponseSerializer serializer];
     NSLog(@"-----------%@",model.circlesId);

@@ -1487,7 +1487,6 @@
 				TargetAttributes = {
 					1561B03E1C9A44230060F378 = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = 5XDQ36V7UQ;
 					};
 					1561B0571C9A44230060F378 = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -1892,7 +1891,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = SaBaiNuo.MX.MyDoctor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "0115371c-cf97-4c81-a116-9f9f996e294e";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -1919,7 +1918,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = SaBaiNuo.MX.MyDoctor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "0115371c-cf97-4c81-a116-9f9f996e294e";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
