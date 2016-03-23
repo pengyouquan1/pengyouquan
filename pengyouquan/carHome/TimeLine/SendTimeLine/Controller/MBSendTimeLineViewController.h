@@ -10,6 +10,7 @@
 
 @interface MBSendTimeLineViewController : UIViewController<UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 @property (nonatomic,strong) UITableView * tableView;
+@property (nonatomic,copy) NSString * location;
 
 -(void)openCamera;
 

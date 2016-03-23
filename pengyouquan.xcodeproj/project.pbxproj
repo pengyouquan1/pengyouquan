@@ -217,6 +217,9 @@
 		6A2B71261C9D221800F04270 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A2B71251C9D221800F04270 /* MobileCoreServices.framework */; };
 		6A6744041C9F8C5F00581134 /* MBProgressHUD+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6744011C9F8C5F00581134 /* MBProgressHUD+Add.m */; };
 		6A6744051C9F8C5F00581134 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6744031C9F8C5F00581134 /* MBProgressHUD.m */; };
+		6A6744091C9FDDB400581134 /* MBLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6744081C9FDDB400581134 /* MBLocationViewController.m */; };
+		6A67440C1CA0D81F00581134 /* CLLocation+Sino.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A67440B1CA0D81F00581134 /* CLLocation+Sino.m */; };
+		6A67440F1CA0E14000581134 /* MBLocationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A67440E1CA0E14000581134 /* MBLocationModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -592,6 +595,12 @@
 		6A6744011C9F8C5F00581134 /* MBProgressHUD+Add.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+Add.m"; sourceTree = "<group>"; };
 		6A6744021C9F8C5F00581134 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		6A6744031C9F8C5F00581134 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		6A6744071C9FDDB400581134 /* MBLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBLocationViewController.h; sourceTree = "<group>"; };
+		6A6744081C9FDDB400581134 /* MBLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBLocationViewController.m; sourceTree = "<group>"; };
+		6A67440A1CA0D81F00581134 /* CLLocation+Sino.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CLLocation+Sino.h"; sourceTree = "<group>"; };
+		6A67440B1CA0D81F00581134 /* CLLocation+Sino.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLLocation+Sino.m"; sourceTree = "<group>"; };
+		6A67440D1CA0E14000581134 /* MBLocationModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBLocationModel.h; sourceTree = "<group>"; };
+		6A67440E1CA0E14000581134 /* MBLocationModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBLocationModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1343,6 +1352,10 @@
 		6A1C19D71C9C216D00E7A45B /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				6A67440A1CA0D81F00581134 /* CLLocation+Sino.h */,
+				6A67440B1CA0D81F00581134 /* CLLocation+Sino.m */,
+				6A6744071C9FDDB400581134 /* MBLocationViewController.h */,
+				6A6744081C9FDDB400581134 /* MBLocationViewController.m */,
 				6A1C19EE1C9C225800E7A45B /* ShowImageViewController.h */,
 				6A1C19EF1C9C225800E7A45B /* ShowImageViewController.m */,
 				6A1C19DD1C9C217900E7A45B /* MBSendTimeLineViewController.h */,
@@ -1355,6 +1368,8 @@
 			isa = PBXGroup;
 			children = (
 				6A1C19E41C9C21ED00E7A45B /* HeaderContent.h */,
+				6A67440D1CA0E14000581134 /* MBLocationModel.h */,
+				6A67440E1CA0E14000581134 /* MBLocationModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1488,6 +1503,11 @@
 					1561B03E1C9A44230060F378 = {
 						CreatedOnToolsVersion = 7.2.1;
 						DevelopmentTeam = 5XDQ36V7UQ;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					1561B0571C9A44230060F378 = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -1683,6 +1703,7 @@
 				6A1C1A161C9C2E5E00E7A45B /* AGImagePickerController+Helper.m in Sources */,
 				1561B37B1C9A632E0060F378 /* MLLabel.m in Sources */,
 				1561B31E1C9A62260060F378 /* UIImageView+HighlightedWebCache.m in Sources */,
+				6A6744091C9FDDB400581134 /* MBLocationViewController.m in Sources */,
 				1561B0441C9A44230060F378 /* main.m in Sources */,
 				1561B3541C9A62760060F378 /* UIView+SDAutoLayout.m in Sources */,
 				1561B3531C9A62760060F378 /* UITableView+SDAutoTableViewCellHeight.m in Sources */,
@@ -1712,6 +1733,7 @@
 				6A6744051C9F8C5F00581134 /* MBProgressHUD.m in Sources */,
 				1561B31B1C9A62260060F378 /* UIImage+GIF.m in Sources */,
 				1561B48E1C9BCC460060F378 /* MX_MASViewConstraint.m in Sources */,
+				6A67440C1CA0D81F00581134 /* CLLocation+Sino.m in Sources */,
 				1561B2EB1C9A61F80060F378 /* SDBaseNavigationController.m in Sources */,
 				1561B2D61C9A61790060F378 /* SDWeiXinPhotoContainerView.m in Sources */,
 				1561B48A1C9BCC460060F378 /* MX_MASConstraint.m in Sources */,
@@ -1729,6 +1751,7 @@
 				6A1C19FA1C9C264B00E7A45B /* UITableView+Improve.m in Sources */,
 				6A1C19EB1C9C223A00E7A45B /* ShowImageView.m in Sources */,
 				1561B3201C9A62260060F378 /* UIView+WebCacheOperation.m in Sources */,
+				6A67440F1CA0E14000581134 /* MBLocationModel.m in Sources */,
 				6A1C19401C9BEAC900E7A45B /* UIWebView+AFNetworking.m in Sources */,
 				1561B3711C9A630D0060F378 /* NSAttributedString+MLExpression.m in Sources */,
 				1561B48B1C9BCC460060F378 /* MX_MASConstraintMaker.m in Sources */,
@@ -1881,7 +1904,7 @@
 				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/pengyouquan/MBPrefix.pch";
 				INFOPLIST_FILE = pengyouquan/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1908,7 +1931,7 @@
 				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/pengyouquan/MBPrefix.pch";
 				INFOPLIST_FILE = pengyouquan/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

@@ -116,7 +116,7 @@
 }
 -(void)gitData
 {
-    NSString * customeId = @"1";
+    NSString * customeId = @"10000008";//[NSNumber numberWithInteger:[[result hxUserId] integerValue]]
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
     session.responseSerializer=[AFHTTPResponseSerializer serializer];
     [session POST:PATH parameters:@{@"customerId":customeId} constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
@@ -463,7 +463,7 @@
     
     
     
-    NSString * customeId = @"1";
+    NSString * customeId = @"10000008";//[NSNumber numberWithInteger:[[result hxUserId] integerValue]]
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
     session.responseSerializer=[AFHTTPResponseSerializer serializer];
     NSLog(@"-----------%@",model.circlesId);
