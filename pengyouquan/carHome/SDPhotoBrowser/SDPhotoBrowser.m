@@ -160,10 +160,15 @@
     SDBrowserImageView *imageView = _scrollView.subviews[index];
     self.currentImageIndex = index;
     if (imageView.hasLoadedImage) return;
-    if ([self highQualityImageURLForIndex:index]) {
-        [imageView setImageWithURL:[self highQualityImageURLForIndex:index] placeholderImage:[self placeholderImageForIndex:index]];
-    } else {
-        imageView.image = [self placeholderImageForIndex:index];
+    
+    if ([_picPathStringsArray[0] isKindOfClass:[NSData class]]) {
+        imageView.image = [UIImage imageWithData:_picPathStringsArray[index]];
+    }else{
+        if ([self highQualityImageURLForIndex:index]) {
+            [imageView setImageWithURL:[self highQualityImageURLForIndex:index] placeholderImage:[self placeholderImageForIndex:index]];
+        } else {
+            imageView.image = [self placeholderImageForIndex:index];
+        }
     }
     imageView.hasLoadedImage = YES;
 }

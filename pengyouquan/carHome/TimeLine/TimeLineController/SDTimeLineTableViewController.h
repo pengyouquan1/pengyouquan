@@ -21,5 +21,6 @@
 
 //-(void)replayMessage:(SDTimeLineCellCommentItemModel *)commentItemModelold;
 
+-(void)SessionManager:(NSString *)TextView picArray:(NSArray *)picArray;
 
 @end

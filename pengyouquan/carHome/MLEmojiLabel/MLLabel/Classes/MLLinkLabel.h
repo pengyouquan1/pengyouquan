@@ -59,7 +59,7 @@ typedef NS_ENUM(NSUInteger, MLLinkType) {
 //默认为MLDataDetectorTypeURL|MLDataDetectorTypePhoneNumber|MLDataDetectorTypeEmail|MLDataDetectorTypeAttributedLink，自动检测除了@和#话题的全部类型并且转换为链接
 @property (nonatomic, assign) MLDataDetectorTypes dataDetectorTypes;
 
-@property (nonatomic, assign) SDTimeLineCellCommentItemModel * CommentItemModel;
+@property (nonatomic, retain) SDTimeLineCellCommentItemModel * CommentItemModel;
 
 //这个是当dataDetectorTypes的MLDataDetectorTypeAttributedLink可用时候，自动对attributedText里Link属性value检测给予linkType的检测类型，默认为MLDataDetectorTypeNone，也就是默认最终得到的linkType为MLLinkTypeOther
 @property (nonatomic, assign) MLDataDetectorTypes dataDetectorTypesOfAttributedLinkValue;

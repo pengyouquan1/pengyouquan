@@ -86,7 +86,12 @@
 //        NSLog(@"-----==%@",obj);
       
         if (obj) {
-            [imageView sd_setImageWithURL:[NSURL URLWithString:obj] placeholderImage:[UIImage imageNamed:@"icon0.jpg"]];
+            if ([_picPathStringsArray[0] isKindOfClass:[NSData class]]) {
+
+                imageView.image=[UIImage imageWithData:(NSData *)obj];
+            }else{
+                [imageView sd_setImageWithURL:[NSURL URLWithString:obj] placeholderImage:[UIImage imageNamed:@"icon0.jpg"]];
+            }
         }else{
             [imageView sd_setImageWithURL:nil placeholderImage:[UIImage imageNamed:@"icon0.jpg"]];
         }
@@ -113,6 +118,7 @@
     SDPhotoBrowser *browser = [[SDPhotoBrowser alloc] init];
     browser.currentImageIndex = imageView.tag;
     browser.sourceImagesContainerView = self;
+    browser.picPathStringsArray = self.picPathStringsArray;
     browser.imageCount = self.picPathStringsArray.count;
     browser.delegate = self;
     [browser show];
