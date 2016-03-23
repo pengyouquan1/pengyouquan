@@ -14,7 +14,6 @@
 #import "ImagePickerChooseView.h"
 #import "AGImagePickerController.h"
 #import "ShowImageViewController.h"
-#import "MBProgressHUD.h"
 #import "MBLocationViewController.h"
 
 
@@ -25,11 +24,10 @@
 #define GrayColor [UIColor colorWithRed:216.0/255.0 green:216.0/255.0 blue:216.0/255.0 alpha:1.0]
 #define PATH @"http://139.196.172.196:8082/yueche/yuecheApp/appAddCircles"
 
-@interface MBSendTimeLineViewController ()<UITextViewDelegate,UIGestureRecognizerDelegate,UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,MBProgressHUDDelegate,setLocationTextDelegate>
+@interface MBSendTimeLineViewController ()<UITextViewDelegate,UIGestureRecognizerDelegate,UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,setLocationTextDelegate>
 {
     UIButton * addImgButton;
     UIButton * rightButton;
-    MBProgressHUD * hud;
     MBLocationViewController * locationVC;
 }
 @property (nonatomic,weak)UITextView *reportStateTextView;
@@ -89,11 +87,6 @@
     rightButton.enabled = NO;
     
     [self.reportStateTextView resignFirstResponder];
-    
-    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [self.view addSubview:hud];
-    hud.delegate = self;
-    hud.labelText = @"正在发送...";
     
     NSMutableArray * dataArray = [[NSMutableArray alloc] init];
     for(int i =0;i < self.imagePickerArray.count;i ++)
@@ -161,7 +154,6 @@
         NSLog(@"上传失败");
     }];
     
-    [hud hide:YES afterDelay:0];
 
     [self dismissViewControllerAnimated:YES completion:nil];
 

@@ -115,8 +115,12 @@
 
 -(void)pushToWeb
 {
+//    web2=[[UIWebView alloc]initWithFrame:CGRectMake(0, lipeiLab.frame.origin.y+lipeiLab.frame.size.height, ScreenWidth, 70)];
+//    [web2 loadHTMLString:[NSString stringWithFormat:@"<head><style>img{max-width:%fpx !important;}</style></head>%@",ScreenWidth,model.PI_Question] baseURL:nil];
     MBNewsWebViewController * newsWebVC = [[MBNewsWebViewController alloc] init];
-    newsWebVC.newsUrl = self.newsUrl;
+    newsWebVC.HTMLString = self.content;
+//    newsWebVC = [[UIWebView alloc]initWithFrame:CGRectMake(0, 64, appHeight - 64, appWidth)];
+    
     [self.controller.navigationController pushViewController:newsWebVC animated:YES];
 }
 

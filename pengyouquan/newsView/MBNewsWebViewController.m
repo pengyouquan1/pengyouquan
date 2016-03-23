@@ -36,8 +36,8 @@
 -(void)createWebView
 {
     UIWebView * web = [[UIWebView alloc] initWithFrame:self.view.bounds];
-    NSURL *url = [[NSURL alloc]initWithString:self.newsUrl];
-    [web  loadRequest:[NSURLRequest requestWithURL:url]];
+
+    [web loadHTMLString:self.HTMLString baseURL:nil];
     [self.view addSubview:web];
 }
 
