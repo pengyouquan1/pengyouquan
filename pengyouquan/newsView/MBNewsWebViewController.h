@@ -10,5 +10,6 @@
 
 @interface MBNewsWebViewController : UIViewController
 @property (nonatomic,strong) NSString * newsUrl;
+@property (nonatomic,copy) NSString * HTMLString;
 
 @end
