@@ -10,6 +10,8 @@
 #import "MX_MASConstraintMaker.h"
 #import "View+MASAdditions.h"
 #import "MBNewsWebViewController.h"
+#import "UIImageView+WebCache.h"
+
 @implementation MBNewsCell
 
 - (void)awakeFromNib {
@@ -25,7 +27,7 @@
 -(void)drawCell
 {
     UIImageView * headImg = [[UIImageView alloc] init];
-    headImg.image = [UIImage imageNamed:self.picture];
+    [headImg sd_setImageWithURL:[NSURL URLWithString:self.picture] placeholderImage:[UIImage imageNamed:@"icon0.jpg"]];
     headImg.layer.cornerRadius = 25.0;
     headImg.layer.masksToBounds = YES;
     headImg.backgroundColor = [UIColor whiteColor];
@@ -78,7 +80,7 @@
         make.left.equalTo(bgView.mas_left).with.offset(8);
         make.right.equalTo(bgView.mas_right).with.offset(-40);
         make.centerY.equalTo(bgView.mas_centerY);
-        make.top.equalTo(bgView.mas_top).with.offset(8);
+        make.top.equalTo(bgView.mas_top).with.offset(12);
     }];
     
     UILabel * timeLab = [[UILabel alloc] init];
@@ -91,7 +93,7 @@
     [self addSubview:timeLab];
     [timeLab mas_makeConstraints:^(MX_MASConstraintMaker *make) {
         make.right.equalTo(bgView.mas_right).with.offset(-10);
-        make.bottom.equalTo(bgView.mas_bottom).with.offset(-3);;
+        make.bottom.equalTo(bgView.mas_bottom).with.offset(-3);
     }];
     
     [bgView mas_updateConstraints:^(MX_MASConstraintMaker *make) {
@@ -99,7 +101,6 @@
         make.right.equalTo(titleLab.mas_right);
         make.top.equalTo(headImg.mas_bottom).with.offset(8);
         make.bottom.equalTo(contentLab.mas_bottom).with.offset(8);
-        make.centerY.equalTo(contentLab.mas_centerY);
     }];
     
     UIImageView * arrow = [[UIImageView alloc] init];

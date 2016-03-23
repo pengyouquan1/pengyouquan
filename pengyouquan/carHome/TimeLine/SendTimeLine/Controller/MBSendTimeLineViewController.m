@@ -15,6 +15,7 @@
 #import "AGImagePickerController.h"
 #import "ShowImageViewController.h"
 #import "MBProgressHUD.h"
+#import "MBLocationViewController.h"
 
 
 #define textViewHeight 100
@@ -24,11 +25,12 @@
 #define GrayColor [UIColor colorWithRed:216.0/255.0 green:216.0/255.0 blue:216.0/255.0 alpha:1.0]
 #define PATH @"http://139.196.172.196:8082/yueche/yuecheApp/appAddCircles"
 
-@interface MBSendTimeLineViewController ()<UITextViewDelegate,UIGestureRecognizerDelegate,UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,MBProgressHUDDelegate>
+@interface MBSendTimeLineViewController ()<UITextViewDelegate,UIGestureRecognizerDelegate,UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,MBProgressHUDDelegate,setLocationTextDelegate>
 {
     UIButton * addImgButton;
     UIButton * rightButton;
     MBProgressHUD * hud;
+    MBLocationViewController * locationVC;
 }
 @property (nonatomic,weak)UITextView *reportStateTextView;
 @property (nonatomic,weak)UILabel *pLabel;
@@ -106,11 +108,16 @@
             data = UIImageJPEGRepresentation(sendImage, 0.3);
             [dataArray addObject:data];
         }
+        
+        else
+        {
+            [dataArray addObject:self.imagePickerArray[i]];
+        }
       
     }
     [self.controller SessionManager:self.reportStateTextView.text picArray:[dataArray copy]];
     
-    NSString * customeId = @"1";
+    NSString * customeId = @"10000008";//[NSNumber numberWithInteger:[[result hxUserId] integerValue]]
     
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
     session.responseSerializer=[AFHTTPResponseSerializer serializer];
@@ -465,12 +472,33 @@
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
     
+    if (indexPath.section == 0) {
+        UIImage *headIcon = [UIImage imageNamed:@"location"];
+        cell.imageView.image = [headIcon reSizeImagetoSize:CGSizeMake(20, 20)];
+        cell.textLabel.text = @"所在位置";
+        cell.textLabel.textColor = [UIColor colorWithRed:76/255.0 green:76/255.0 blue:76/255.0 alpha:1];
+        cell.textLabel.font = [UIFont systemFontOfSize:14];
+    }
+
+    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     // Configure the cell...
-    
-    
-    
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //所在位置
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+    
+    if (indexPath.section == 0) {
+        locationVC = [[MBLocationViewController alloc] init];
+    UINavigationController * nvc=[[UINavigationController alloc] initWithRootViewController:locationVC];
+    nvc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        locationVC.delegate = self;
+
+        [self presentViewController:nvc animated:YES completion:nil];
+    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -482,6 +510,15 @@
     {
         return 10;
     }
+}
+#pragma mark - setLocationTextDelegate
+-(void)setLocationTextWithText:(NSString *)text
+{
+    NSIndexPath * indexpath = [NSIndexPath indexPathForRow:0 inSection:0];
+    UITableViewCell * cell = [self.tableView cellForRowAtIndexPath:indexpath];
+    cell.textLabel.text = text;
+    
+    NSLog(@"%@",text);
 }
 
 @end
