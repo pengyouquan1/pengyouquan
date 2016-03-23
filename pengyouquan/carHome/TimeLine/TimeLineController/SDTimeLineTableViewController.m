@@ -407,7 +407,7 @@
 {
     SDTimeLineCellModel *model = [SDTimeLineCellModel new];
     model.iconName = nil;
-    model.name = @"新人";
+    model.name = @"yc93638705";
     model.msgContent =TextView;
 //        model.circlesId = [messageArray[i] objectForKey:@"id"]; // 车友圈id
 //    NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];
