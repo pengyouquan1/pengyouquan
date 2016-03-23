@@ -259,12 +259,13 @@
 {
     [self.reportStateTextView resignFirstResponder];
     
-    //    self.navigationController.navigationBarHidden = YES;
-    //    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-    //    ShowImageViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"ShowImage"];
-    //    vc.clickTag = tap.view.tag;
-    //    vc.imageViews = self.imagePickerArray;
-    //    [self.navigationController pushViewController:vc animated:YES];
+        self.navigationController.navigationBarHidden = YES;
+//        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+    
+        ShowImageViewController *vc = [[ShowImageViewController alloc] init];
+        vc.clickTag = tap.view.tag;
+        vc.imageViews = self.imagePickerArray;
+        [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - keyboard method
